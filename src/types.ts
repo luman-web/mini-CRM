@@ -48,3 +48,23 @@ export type TaskEvent = {
   created_at: string
   actor?: Pick<Profile, 'id' | 'full_name'> | null
 }
+
+export type NotificationKind =
+  | 'assigned'
+  | 'updated'
+  | 'submitted'
+  | 'revision'
+  | 'accepted'
+  | 'archived'
+  | 'restored'
+
+export type TaskNotification = {
+  id: number
+  task_id: string
+  actor_id: string
+  kind: NotificationKind
+  read_at: string | null
+  created_at: string
+  task?: Pick<TaskRow, 'id' | 'title' | 'status' | 'archived_at'> | null
+  actor?: Pick<Profile, 'id' | 'full_name'> | null
+}

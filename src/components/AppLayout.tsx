@@ -3,6 +3,7 @@ import { Avatar, Button, Layout, Menu, Space, Tag, Typography } from 'antd'
 import { useState } from 'react'
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from '../auth/AuthContext'
+import { NotificationsBell } from './NotificationsBell'
 
 const { Header, Sider, Content } = Layout
 
@@ -35,6 +36,7 @@ export function AppLayout() {
             onClick={() => setCollapsed((value) => !value)}
           />
           <Space>
+            <NotificationsBell />
             <Avatar>{profile?.full_name.slice(0, 1)}</Avatar>
             <div className="user-summary">
               <Typography.Text strong>{profile?.full_name}</Typography.Text>

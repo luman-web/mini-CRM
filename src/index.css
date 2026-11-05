@@ -15,3 +15,70 @@ body {
   min-width: 320px;
   min-height: 100vh;
 }
+
+.notifications-panel {
+  width: min(390px, calc(100vw - 24px));
+  max-height: min(560px, calc(100vh - 96px));
+  overflow: hidden;
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 0 8px 28px rgb(15 23 42 / 16%);
+}
+
+.notifications-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 52px;
+  padding: 8px 14px 8px 18px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.notifications-loading {
+  display: grid;
+  min-height: 150px;
+  place-items: center;
+}
+
+.notifications-list {
+  max-height: 480px;
+  overflow-y: auto;
+}
+
+.notification-item {
+  display: flex;
+  width: 100%;
+  gap: 12px;
+  border: 0;
+  border-bottom: 1px solid #f0f0f0;
+  padding: 12px 18px;
+  color: inherit;
+  text-align: left;
+  background: #fff;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.notification-item:hover,
+.notification-item:focus-visible,
+.notification-item.notification-unread {
+  background: #f0f7ff;
+}
+
+.notification-content {
+  display: flex;
+  min-width: 0;
+  flex: 1;
+  flex-direction: column;
+}
+
+.notification-icon {
+  color: #1677ff;
+  font-size: 17px;
+}
+
+.notification-meta {
+  display: block;
+  margin-top: 2px;
+  font-size: 12px;
+}
