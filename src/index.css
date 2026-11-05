@@ -77,6 +77,15 @@ body {
   font-size: 17px;
 }
 
+.notification-unread-dot {
+  width: 8px;
+  height: 8px;
+  flex: 0 0 8px;
+  margin-top: 7px;
+  border-radius: 50%;
+  background: #1677ff;
+}
+
 .notification-meta {
   display: block;
   margin-top: 2px;

@@ -93,23 +93,27 @@ export function NotificationsBell() {
         <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="Новых событий нет" />
       ) : (
         <div className="notifications-list">
-          {notifications.map((notification) => (
-            <button
-              type="button"
-              key={notification.id}
-              className={`notification-item${notification.read_at ? '' : ' notification-unread'}`}
-              onClick={() => openNotification(notification)}
-            >
-              <InboxOutlined className="notification-icon" />
-              <span className="notification-content">
-                <Typography.Text strong>{notificationText[notification.kind]}</Typography.Text>
-                <Typography.Text ellipsis>{notification.task?.title ?? 'Задача'}</Typography.Text>
-                <Typography.Text type="secondary" className="notification-meta">
-                  {notification.actor?.full_name} · {dateFormatter.format(new Date(notification.created_at))}
-                </Typography.Text>
-              </span>
-            </button>
-          ))}
+          {notifications.map((notification) => {
+            const unread = !notification.read_at
+            return (
+              <button
+                type="button"
+                key={notification.id}
+                className={`notification-item${unread ? ' notification-unread' : ''}`}
+                onClick={() => openNotification(notification)}
+              >
+                <InboxOutlined className="notification-icon" />
+                <span className="notification-content">
+                  <Typography.Text strong={unread}>{notificationText[notification.kind]}</Typography.Text>
+                  <Typography.Text strong={unread} ellipsis>{notification.task?.title ?? 'Задача'}</Typography.Text>
+                  <Typography.Text type="secondary" className="notification-meta">
+                    {notification.actor?.full_name} · {dateFormatter.format(new Date(notification.created_at))}
+                  </Typography.Text>
+                </span>
+                {unread && <span className="notification-unread-dot" aria-label="Непрочитано" />}
+              </button>
+            )
+          })}
         </div>
       )}
     </div>
