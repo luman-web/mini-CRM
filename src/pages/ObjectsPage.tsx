@@ -73,7 +73,7 @@ export function ObjectsPage() {
         )}
       </div>
 
-      {error && <Alert type="error" showIcon message="Не удалось загрузить объекты" description={error} />}
+      {error && <Alert type="error" showIcon title="Не удалось загрузить объекты" description={error} />}
       {loading ? (
         <Row gutter={[16, 16]}>{[1, 2, 3].map((item) => <Col xs={24} md={12} xl={8} key={item}><Card><Skeleton active /></Card></Col>)}</Row>
       ) : objects.length === 0 ? (

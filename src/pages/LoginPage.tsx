@@ -36,7 +36,7 @@ export function LoginPage() {
               <Alert
                 type="warning"
                 showIcon
-                message="Supabase пока не подключён"
+                title="Supabase пока не подключён"
                 description="Скопируйте .env.example в .env и укажите URL проекта и publishable key."
               />
             )}

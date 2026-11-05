@@ -52,6 +52,13 @@
 .page-heading h2.ant-typography { margin: 0 0 4px; }
 .section-title { margin-top: 28px !important; }
 .content-card { margin-top: 20px; }
+.task-title-line {
+  display: flex;
+  margin-bottom: 6px;
+}
+.task-title-line h2.ant-typography { margin: 0; }
+.task-title-line .ant-tag { margin-inline-end: 0; }
+.task-object-name { display: block; }
 .object-card { height: 100%; }
 .object-card h4.ant-typography { margin: 0; }
 .clickable-row { cursor: pointer; }

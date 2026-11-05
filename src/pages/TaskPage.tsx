@@ -1,5 +1,5 @@
 import { ArrowLeftOutlined, CheckOutlined, DeleteOutlined, EditOutlined, InboxOutlined, PlayCircleOutlined, RedoOutlined, RollbackOutlined, SendOutlined } from '@ant-design/icons'
-import { Alert, Button, Card, Descriptions, Form, Input, Modal, Popconfirm, Select, Space, Spin, Timeline, Typography, message } from 'antd'
+import { Alert, Button, Card, Descriptions, Form, Input, Modal, Popconfirm, Select, Space, Spin, Tag, Timeline, Typography, message } from 'antd'
 import { useCallback, useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useAuth } from '../auth/AuthContext'
@@ -159,7 +159,7 @@ export function TaskPage() {
   })()
 
   if (loading) return <div className="centered"><Spin size="large" /></div>
-  if (error || !task) return <Alert type="error" showIcon message="Не удалось открыть задачу" description={error} />
+  if (error || !task) return <Alert type="error" showIcon title="Не удалось открыть задачу" description={error} />
 
   const archived = Boolean(task.archived_at)
 
@@ -169,8 +169,12 @@ export function TaskPage() {
       <Button type="text" icon={<ArrowLeftOutlined />} onClick={() => navigate(`/objects/${task.object_id}`)}>К объекту</Button>
       <div className="page-heading">
         <div>
-          <Space wrap><Typography.Title level={2}>{task.title}</Typography.Title><TaskStatusTag status={task.status} />{archived && <Typography.Text type="danger">В архиве</Typography.Text>}</Space>
-          <Typography.Text type="secondary">{task.object?.name}</Typography.Text>
+          <Space wrap align="center" className="task-title-line">
+            <Typography.Title level={2}>{task.title}</Typography.Title>
+            <TaskStatusTag status={task.status} />
+            {archived && <Tag color="red">В архиве</Tag>}
+          </Space>
+          <Typography.Text type="secondary" className="task-object-name">{task.object?.name}</Typography.Text>
         </div>
         <Space wrap>{actionButtons}</Space>
       </div>
@@ -179,7 +183,7 @@ export function TaskPage() {
         <Alert
           type="warning"
           showIcon
-          message="Задача находится в архиве"
+          title="Задача находится в архиве"
           action={<Button icon={<RollbackOutlined />} loading={actionLoading} onClick={() => runAction(async () => {
             const { error: rpcError } = await supabase!.rpc('restore_task', { p_task_id: id, p_comment: null })
             return { error: rpcError }

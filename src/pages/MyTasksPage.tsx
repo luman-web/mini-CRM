@@ -41,7 +41,7 @@ export function MyTasksPage() {
           <Typography.Text type="secondary">Активные задачи, назначенные вам</Typography.Text>
         </div>
       </div>
-      {error && <Alert type="error" showIcon message="Не удалось загрузить задачи" description={error} />}
+      {error && <Alert type="error" showIcon title="Не удалось загрузить задачи" description={error} />}
       <Card>
         <Table<TaskRow>
           rowKey="id"

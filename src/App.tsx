@@ -20,7 +20,7 @@ function ProtectedRoutes() {
         <Alert
           type="error"
           showIcon
-          message="Профиль пользователя не настроен"
+          title="Профиль пользователя не настроен"
           description={error}
           action={<Button onClick={signOut}>Выйти</Button>}
         />

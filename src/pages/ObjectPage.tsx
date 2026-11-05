@@ -75,7 +75,7 @@ export function ObjectPage() {
     loadPage()
   }
 
-  if (error) return <Alert type="error" showIcon message="Не удалось открыть объект" description={error} />
+  if (error) return <Alert type="error" showIcon title="Не удалось открыть объект" description={error} />
 
   return (
     <>
