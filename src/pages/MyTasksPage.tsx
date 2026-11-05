@@ -3,6 +3,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../auth/AuthContext'
 import { supabase } from '../lib/supabase'
+import { errorMessage } from '../lib/errorMessage'
 import { TaskStatusTag } from '../taskStatus'
 import type { TaskRow } from '../types'
 
@@ -24,7 +25,7 @@ export function MyTasksPage() {
       .order('created_at', { ascending: false })
     setLoading(false)
     if (queryError) {
-      setError(queryError.message)
+      setError(errorMessage(queryError, 'Не удалось загрузить задачи'))
       return
     }
     setTasks((data ?? []) as unknown as TaskRow[])

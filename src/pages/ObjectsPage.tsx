@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../auth/AuthContext'
 import { supabase } from '../lib/supabase'
+import { errorMessage } from '../lib/errorMessage'
 import type { ObjectRow } from '../types'
 
 type ObjectFormValues = { name: string; address: string }
@@ -29,7 +30,7 @@ export function ObjectsPage() {
 
     setLoading(false)
     if (queryError) {
-      setError(queryError.message)
+      setError(errorMessage(queryError, 'Не удалось загрузить объекты'))
       return
     }
     setObjects((data ?? []) as ObjectRow[])
@@ -49,7 +50,7 @@ export function ObjectsPage() {
     setSaving(false)
 
     if (insertError) {
-      messageApi.error(insertError.message)
+      messageApi.error(errorMessage(insertError, 'Не удалось создать объект'))
       return
     }
     messageApi.success('Объект создан')
@@ -104,10 +105,10 @@ export function ObjectsPage() {
         cancelText="Отмена"
       >
         <Form form={form} layout="vertical" onFinish={createObject} requiredMark={false}>
-          <Form.Item name="name" label="Название" rules={[{ required: true, min: 2 }]}>
+          <Form.Item name="name" label="Название" validateFirst rules={[{ required: true }, { whitespace: true }, { min: 2 }]}>
             <Input placeholder="ЖК Северный" />
           </Form.Item>
-          <Form.Item name="address" label="Адрес" rules={[{ required: true, min: 3 }]}>
+          <Form.Item name="address" label="Адрес" validateFirst rules={[{ required: true }, { whitespace: true }, { min: 3 }]}>
             <Input placeholder="ул. Строителей, 10" />
           </Form.Item>
         </Form>

@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useAuth } from '../auth/AuthContext'
 import { supabase } from '../lib/supabase'
+import { errorMessage } from '../lib/errorMessage'
 import { taskStatusLabel, TaskStatusTag } from '../taskStatus'
 import type { Profile, TaskEvent, TaskRow, TaskStatus } from '../types'
 
@@ -49,7 +50,7 @@ export function TaskPage() {
     ])
     setLoading(false)
     if (taskResult.error || eventResult.error) {
-      setError(taskResult.error?.message ?? eventResult.error?.message ?? 'Ошибка загрузки')
+      setError(errorMessage(taskResult.error ?? eventResult.error, 'Не удалось загрузить задачу'))
       return
     }
     setTask(taskResult.data as unknown as TaskRow)
@@ -71,7 +72,7 @@ export function TaskPage() {
     const result = await action()
     setActionLoading(false)
     if (result.error) {
-      messageApi.error(result.error.message)
+      messageApi.error(errorMessage(result.error))
       return false
     }
     messageApi.success(success)
@@ -221,8 +222,8 @@ export function TaskPage() {
 
       <Modal title="Редактирование задачи" open={editOpen} onCancel={() => setEditOpen(false)} onOk={() => form.submit()} confirmLoading={actionLoading} okText="Сохранить" cancelText="Отмена">
         <Form form={form} layout="vertical" onFinish={saveEdit} requiredMark={false}>
-          <Form.Item name="title" label="Название" rules={[{ required: true, min: 2 }]}><Input /></Form.Item>
-          <Form.Item name="description" label="Описание" rules={[{ required: true }]}><Input.TextArea rows={4} /></Form.Item>
+          <Form.Item name="title" label="Название" validateFirst rules={[{ required: true }, { whitespace: true }, { min: 2 }]}><Input /></Form.Item>
+          <Form.Item name="description" label="Описание" validateFirst rules={[{ required: true }, { whitespace: true }]}><Input.TextArea rows={4} /></Form.Item>
           <Form.Item name="assignee_id" label="Исполнитель"><Select allowClear options={executors.map((item) => ({ value: item.id, label: item.full_name }))} /></Form.Item>
         </Form>
       </Modal>

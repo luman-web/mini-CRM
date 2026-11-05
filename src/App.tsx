@@ -1,4 +1,5 @@
 import { Alert, Button, ConfigProvider, Result, Spin } from 'antd'
+import ruRU from 'antd/locale/ru_RU'
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import { AuthProvider, useAuth } from './auth/AuthContext'
 import { AppLayout } from './components/AppLayout'
@@ -48,6 +49,17 @@ function ProtectedRoutes() {
 function App() {
   return (
     <ConfigProvider
+      locale={ruRU}
+      form={{
+        validateMessages: {
+          required: 'Поле «${label}» обязательно',
+          whitespace: 'Поле «${label}» не может состоять только из пробелов',
+          string: {
+            min: 'Поле «${label}» должно содержать не менее ${min} символов',
+            max: 'Поле «${label}» должно содержать не более ${max} символов',
+          },
+        },
+      }}
       theme={{
         token: {
           colorPrimary: '#2563eb',

@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useAuth } from '../auth/AuthContext'
 import { supabase } from '../lib/supabase'
+import { errorMessage } from '../lib/errorMessage'
 import { TaskStatusTag } from '../taskStatus'
 import type { ObjectRow, Profile, TaskRow } from '../types'
 
@@ -37,7 +38,7 @@ export function ObjectPage() {
     setLoading(false)
 
     if (objectResult.error || tasksResult.error) {
-      setError(objectResult.error?.message ?? tasksResult.error?.message ?? 'Ошибка загрузки')
+      setError(errorMessage(objectResult.error ?? tasksResult.error, 'Не удалось загрузить данные объекта'))
       return
     }
     setObject(objectResult.data as ObjectRow)
@@ -66,7 +67,7 @@ export function ObjectPage() {
     })
     setSaving(false)
     if (insertError) {
-      messageApi.error(insertError.message)
+      messageApi.error(errorMessage(insertError, 'Не удалось создать задачу'))
       return
     }
     messageApi.success('Задача создана')
@@ -114,8 +115,8 @@ export function ObjectPage() {
 
       <Modal title="Новая задача" open={modalOpen} onCancel={() => setModalOpen(false)} onOk={() => form.submit()} confirmLoading={saving} okText="Создать" cancelText="Отмена">
         <Form form={form} layout="vertical" onFinish={createTask} requiredMark={false}>
-          <Form.Item name="title" label="Название" rules={[{ required: true, min: 2 }]}><Input /></Form.Item>
-          <Form.Item name="description" label="Описание" rules={[{ required: true }]}><Input.TextArea rows={4} /></Form.Item>
+          <Form.Item name="title" label="Название" validateFirst rules={[{ required: true }, { whitespace: true }, { min: 2 }]}><Input /></Form.Item>
+          <Form.Item name="description" label="Описание" validateFirst rules={[{ required: true }, { whitespace: true }]}><Input.TextArea rows={4} /></Form.Item>
           <Form.Item name="assignee_id" label="Исполнитель">
             <Select allowClear placeholder="Можно назначить позже" options={executors.map((item) => ({ value: item.id, label: item.full_name }))} />
           </Form.Item>
