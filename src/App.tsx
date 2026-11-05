@@ -1,6 +1,6 @@
 import { Alert, Button, ConfigProvider, Result, Spin } from 'antd'
 import ruRU from 'antd/locale/ru_RU'
-import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
+import { HashRouter, Navigate, Route, Routes } from 'react-router-dom'
 import { AuthProvider, useAuth } from './auth/AuthContext'
 import { AppLayout } from './components/AppLayout'
 import { ObjectPage } from './pages/ObjectPage'
@@ -68,11 +68,11 @@ function App() {
         },
       }}
     >
-      <BrowserRouter>
+      <HashRouter>
         <AuthProvider>
           <ProtectedRoutes />
         </AuthProvider>
-      </BrowserRouter>
+      </HashRouter>
     </ConfigProvider>
   )
 }
